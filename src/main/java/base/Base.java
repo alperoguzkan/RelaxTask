@@ -33,7 +33,7 @@ public class Base {
         System.setProperty("webdriver.gecko.driver", System.getProperty(userDirectory) + "\\Drivers\\geckodriver.exe");
         System.setProperty("webdriver.edge.driver", System.getProperty(userDirectory) + "\\Drivers\\msedgedriver.exe");
 
-        url = getConf("urlSauceDemo");
+        url = getConf("url");
 
         ChromeOptions options = new ChromeOptions();
         FirefoxOptions options2 = new FirefoxOptions();
@@ -84,6 +84,21 @@ public class Base {
         } catch (Exception e) {
             logSystemOut("Cannot clicked to: " + element);
             logSystemOut((e.getMessage()));
+        }
+    }
+
+    public void jsClick(WebElement element) {
+        try {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            JavascriptExecutor jsDriver = (JavascriptExecutor) getDriver();
+            jsDriver.executeScript("arguments[0].click();", element);
+            if (!element.getText().isEmpty()) {
+                logSystemOut("Successfully clicked(js) to element by the text: " + element.getText());
+            } else {
+                logSystemOut("Cannot clicked to the element");
+            }
+        }catch(Exception e){
+            logSystemOut(e.getMessage());
         }
     }
 
