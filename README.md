@@ -1,6 +1,6 @@
 # RelaxTask
 
-This project is a sample Cucumber Java UI Automation Implementation
+This project is a sample Cucumber Java UI and API Test Implementation
 
 ### Prerequisites
 
