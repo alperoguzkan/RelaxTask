@@ -31,8 +31,29 @@ public class ExpediaPageSteps extends Base {
         expediaPage.goToMultiCity();
     }
 
+    @And("Clicks to Add another flight")
+    public void clicksToAddAnotherFlight() throws IOException, InterruptedException {
+        expediaPage.addFlight();
+    }
+
     @When("Adds a first flight from {string} to {string}")
     public void addsAFirstFlightFromTo(String destA, String destB) throws IOException, InterruptedException {
         expediaPage.firstFlight(destA, destB);
+    }
+
+
+    @And("Adds a second flight from {string} to {string}")
+    public void addsASecondFlightFromTo(String destB, String destC) throws IOException, InterruptedException {
+        expediaPage.secondFlight(destB, destC);
+    }
+
+    @And("Adds a third flight from {string} to {string}")
+    public void addsAThirdFlightFromTo(String destC, String destA) throws IOException, InterruptedException {
+        expediaPage.thirdFlight(destC, destA);
+    }
+
+    @And("clicks search button")
+    public void clicksSearchButton() throws InterruptedException {
+        expediaPage.searchForFlights();
     }
 }
