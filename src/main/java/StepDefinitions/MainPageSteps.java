@@ -68,4 +68,51 @@ public class MainPageSteps extends Base {
     public void closesBrowser() {
         driver.quit();
     }
+
+
+    @Given("user sends a post request with payload with email as {string} and password as {string}")
+    public void userSendsAPostRequestWithPayloadWithEmailAsAndPasswordAs(String mail, String password) {
+        String url = "https://reqres.in/api/register";
+
+        JSONObject json = new JSONObject();
+
+        json.put("email", mail);
+        json.put("password",password);
+        Response response = ResourceHelper.create(url, String.valueOf(json));
+        logSystemOut(String.valueOf(response));
+        // Validating the Response Code
+        Assert.assertEquals(response.getStatusCode(), 200);
+        logSystemOut(response.getBody().print());
+        JsonPathConfig jsonPathConfig = new JsonPathConfig();
+    }
+
+    @Given("user sends a post request with payload with email as {string} and password as {string} and gets {string}")
+    public void userSendsAPostRequestWithPayloadWithEmailAsAndPasswordAsAndGets(String mail, String password, String responseCode) {
+        String url = "https://reqres.in/api/register";
+
+        JSONObject json = new JSONObject();
+
+        if(mail != null && !mail.isEmpty()){
+            json.put("email", mail);
+        }
+
+        if(password != null && !password.isEmpty()){
+            json.put("password", password);
+        }
+        Response response = ResourceHelper.create(url, String.valueOf(json));
+        logSystemOut(String.valueOf(response));
+        // Validating the Response Code
+        Assert.assertEquals(response.getStatusCode(), Integer.parseInt(responseCode));
+        logSystemOut(response.getBody().print());
+
+    }
+
+
+    @Given("user gets a request get the user list and gets {string}")
+    public void userGetsARequestGetTheUserListAndGets(String responseCode) {
+        String url = "https://reqres.in/api/register";
+        Response response = ResourceHelper.get(url);
+        Assert.assertEquals(response.getStatusCode(), Integer.parseInt(responseCode));
+        logSystemOut(response.getBody().print());
+    }
 }
