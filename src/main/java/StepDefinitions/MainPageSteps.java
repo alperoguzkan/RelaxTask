@@ -14,8 +14,10 @@ import io.restassured.matcher.RestAssuredMatchers.*;
 import io.restassured.path.json.config.JsonPathConfig;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers.*;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.testng.Assert;
 
 import java.io.IOException;
@@ -28,6 +30,8 @@ import utils.ResourceHelper;
 public class MainPageSteps extends Base {
 
     MainPage mainPage = new MainPage();
+    JSONObject jsonResponse;
+    JSONArray getJsonResponse;
 
     @Given("user clicks login button")
     public void userClicksLoginButton() throws InterruptedException {
@@ -45,49 +49,13 @@ public class MainPageSteps extends Base {
         mainPage.enterCredentials(mail, password);
     }
 
-    @Given("user sends a post request with payload")
-    public void userSendsAPostRequestWithPayload() throws IOException {
-
-        String url = "https://reqres.in/api/register"; // Fetching url from Properties file
-
-        JSONObject json = new JSONObject();
-
-        json.put("email", "eve.holt@reqres.in");
-        json.put("password","pistol");
-        Response response = ResourceHelper.create(url, String.valueOf(json));
-        logSystemOut("dsadas");
-        logSystemOut(String.valueOf(response));
-        // Validating the Response Code
-        Assert.assertEquals(response.getStatusCode(), 200);
-        logSystemOut(response.getBody().print());
-        JsonPathConfig jsonPathConfig = new JsonPathConfig();
-
-    }
-
     @And("closes browser")
     public void closesBrowser() {
         driver.quit();
     }
 
-
-    @Given("user sends a post request with payload with email as {string} and password as {string}")
-    public void userSendsAPostRequestWithPayloadWithEmailAsAndPasswordAs(String mail, String password) {
-        String url = "https://reqres.in/api/register";
-
-        JSONObject json = new JSONObject();
-
-        json.put("email", mail);
-        json.put("password",password);
-        Response response = ResourceHelper.create(url, String.valueOf(json));
-        logSystemOut(String.valueOf(response));
-        // Validating the Response Code
-        Assert.assertEquals(response.getStatusCode(), 200);
-        logSystemOut(response.getBody().print());
-        JsonPathConfig jsonPathConfig = new JsonPathConfig();
-    }
-
     @Given("user sends a post request with payload with email as {string} and password as {string} and gets {string}")
-    public void userSendsAPostRequestWithPayloadWithEmailAsAndPasswordAsAndGets(String mail, String password, String responseCode) {
+    public void userSendsAPostRequestWithPayloadWithEmailAsAndPasswordAsAndGets(String mail, String password, String responseCode) throws ParseException {
         String url = "https://reqres.in/api/register";
 
         JSONObject json = new JSONObject();
@@ -103,16 +71,36 @@ public class MainPageSteps extends Base {
         logSystemOut(String.valueOf(response));
         // Validating the Response Code
         Assert.assertEquals(response.getStatusCode(), Integer.parseInt(responseCode));
-        logSystemOut(response.getBody().print());
 
+        JSONParser parser = new JSONParser();
+        jsonResponse = (JSONObject) parser.parse(response.getBody().print());
+        logSystemOut(response.getBody().print());
     }
 
 
     @Given("user gets a request get the user list and gets {string}")
-    public void userGetsARequestGetTheUserListAndGets(String responseCode) {
+    public void userGetsARequestGetTheUserListAndGets(String responseCode) throws ParseException {
         String url = "https://reqres.in/api/register";
         Response response = ResourceHelper.get(url);
         Assert.assertEquals(response.getStatusCode(), Integer.parseInt(responseCode));
+        response.getBody().print();
         logSystemOut(response.getBody().print());
+        JSONParser parser = new JSONParser();
+        getJsonResponse = (JSONArray) parser.parse(response.getBody().print());
+    }
+
+    @And("gets {string} error")
+    public void getsError(String errorName) {
+        Assert.assertEquals(errorName,(String) jsonResponse.get("error"));
+    }
+
+    @And("gets a token")
+    public void getsAToken() {
+        Assert.assertNotNull(jsonResponse.get("token"));
+    }
+
+    @And("gets a list of users")
+    public void getsAListOfUsers() {
+        logSystemOut((String) getJsonResponse.get(Integer.parseInt("data")));
     }
 }
