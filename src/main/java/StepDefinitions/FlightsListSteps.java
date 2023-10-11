@@ -1,13 +1,7 @@
 package StepDefinitions;
 
-import Pages.ExpediaPage;
 import base.Base;
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-
-import java.io.IOException;
 
 public class FlightsListSteps extends Base {
     Pages.FlightsListPage flightsListPage = new Pages.FlightsListPage();

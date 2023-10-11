@@ -5,26 +5,12 @@ import base.Base;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.core.IsEqual.equalTo;
-
-import io.restassured.RestAssured.*;
-import io.restassured.matcher.RestAssuredMatchers.*;
-import io.restassured.path.json.config.JsonPathConfig;
 import io.restassured.response.Response;
-import org.hamcrest.Matchers.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.testng.Assert;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import utils.RequestHelper;
 import utils.ResourceHelper;
 
 public class MainPageSteps extends Base {

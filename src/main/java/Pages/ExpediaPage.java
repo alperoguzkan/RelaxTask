@@ -5,17 +5,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import static base.Base.driver;
-import static base.Base.getConf;
 
 public class ExpediaPage extends Base {
     @FindBy(xpath="//a[@href=\"/Flights\" and @aria-controls]")

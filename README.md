@@ -29,13 +29,7 @@ git clone https://github.com/alperoguzkan/RelaxTask.git
 ## WebDrivers
 
 Webdrivers are already located in the project itself. And in the code it refers to relevant user's directory. So you don't need to change the directory. 
-Only thing you need to make sure of is that, browser versions should be compatible with driver versions:
-
-For Google Chrome: ChromeDriver  is used (That means your Chrome build should be a subversion of version 90)
-
-For Mozilla Firefox: GeckoDriver is used 
-
-For Edge: EdgeDriver is used 
+Only thing you need to make sure of is that, your browser versions should be compatible with driver versions used:
 
 
 ## Running the tests
@@ -51,7 +45,7 @@ feature file and right click, then click  ```Run '1- Login Fail without credenti
 - Go to ```src\main\java\Runners\Runner``` 
 feature file and right click, then click  ```Run 'Runner'```
 
-There is an example report file named ```cucumber-report_example.html``` just below top level.
+There is an example report file named ```cucumber-report_example.html``` under target directory.
 
 ## config.properties file
 

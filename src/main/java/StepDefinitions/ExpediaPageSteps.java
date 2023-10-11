@@ -2,18 +2,11 @@ package StepDefinitions;
 
 import Pages.ExpediaPage;
 import Pages.FlightsListPage;
-import Pages.MainPage;
 import base.Base;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.path.json.config.JsonPathConfig;
-import io.restassured.response.Response;
-import org.json.simple.JSONObject;
-import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
-import utils.ResourceHelper;
 
 import java.io.IOException;
 
