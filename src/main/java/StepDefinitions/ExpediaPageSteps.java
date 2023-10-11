@@ -1,6 +1,7 @@
 package StepDefinitions;
 
 import Pages.ExpediaPage;
+import Pages.FlightsListPage;
 import Pages.MainPage;
 import base.Base;
 import io.cucumber.java.en.And;
@@ -19,7 +20,7 @@ import java.io.IOException;
 public class ExpediaPageSteps extends Base {
 
     ExpediaPage expediaPage = new ExpediaPage();
-
+    FlightsListPage flightsListPage = new FlightsListPage();
 
     @Given("user goes to flights tab")
     public void userGoesToFlightsTab() throws IOException, InterruptedException {
@@ -36,24 +37,35 @@ public class ExpediaPageSteps extends Base {
         expediaPage.addFlight();
     }
 
-    @When("Adds a first flight from {string} to {string}")
-    public void addsAFirstFlightFromTo(String destA, String destB) throws IOException, InterruptedException {
-        expediaPage.firstFlight(destA, destB);
-    }
-
-
-    @And("Adds a second flight from {string} to {string}")
-    public void addsASecondFlightFromTo(String destB, String destC) throws IOException, InterruptedException {
-        expediaPage.secondFlight(destB, destC);
-    }
-
-    @And("Adds a third flight from {string} to {string}")
-    public void addsAThirdFlightFromTo(String destC, String destA) throws IOException, InterruptedException {
-        expediaPage.thirdFlight(destC, destA);
-    }
-
     @And("clicks search button")
     public void clicksSearchButton() throws InterruptedException {
         expediaPage.searchForFlights();
+        expediaPage.flightsLoaded();
     }
+
+    @When("Adds a first flight from {string} to {string} of date {string}")
+    public void addsAFirstFlightFromToOfDate(String destA, String destB, String date) throws IOException, InterruptedException {
+        expediaPage.firstFlight(destA, destB, date);
+    }
+
+    @And("Adds a second flight from {string} to {string} of date {string}")
+    public void addsASecondFlightFromToOfDate(String destB, String destC, String date) throws IOException, InterruptedException {
+        expediaPage.secondFlight(destB, destC, date);
+    }
+
+    @And("Adds a third flight from {string} to {string} of date {string}")
+    public void addsAThirdFlightFromToOfDate(String destC, String destA, String date) throws IOException, InterruptedException {
+        expediaPage.thirdFlight(destC, destA, date);
+    }
+
+    @And("clicks to {string} adults")
+    public void clicksToAdults(String count) throws InterruptedException {
+        expediaPage.selectAdultCount(Integer.parseInt(count));
+    }
+
+    @Then("flights loaded")
+    public void flightsLoaded() throws InterruptedException {
+        expediaPage.flightsLoaded();
+    }
+
 }

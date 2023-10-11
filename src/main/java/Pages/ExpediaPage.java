@@ -1,11 +1,14 @@
 package Pages;
 
 import base.Base;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,6 +63,27 @@ public class ExpediaPage extends Base {
     @FindBy(xpath="//button[@id=\"search_button\"]")
     protected WebElement searchButton;
 
+    @FindBy(xpath="(//*[@class=\"uitk-fake-input uitk-form-field-trigger\"])[3]")
+    protected WebElement datePicker1;
+
+    @FindBy(xpath="(//*[@class=\"uitk-fake-input uitk-form-field-trigger\"])[6]")
+    protected WebElement datePicker2;
+
+    @FindBy(xpath="(//*[@class=\"uitk-fake-input uitk-form-field-trigger\"])[9]")
+    protected WebElement datePicker3;
+
+    @FindBy(xpath="//*[@data-stid=\"apply-date-selector\"]\n")
+    protected WebElement dateConfirm;
+
+    @FindBy(xpath="//*[@data-stid=\"open-room-picker\"]\n")
+    protected WebElement travelerCountButton;
+
+    @FindBy(xpath="((//*[@class=\"uitk-spacing uitk-spacing-padding-blockstart-two\"])[1]//*[@class=\"uitk-step-input-button\"])[2]")
+    protected WebElement adultCountPlus;
+
+    @FindBy(xpath="//*[@id=\"travelers_selector_done_button\"]\n")
+    protected WebElement countConfirm;
+
     public ExpediaPage(){
         PageFactory.initElements(driver,this);
     }
@@ -68,41 +92,51 @@ public class ExpediaPage extends Base {
         driver.get(getConf("urlExpedia"));
         click(rejectCookies);
         click(flightsButton);
+        Assert.assertTrue(flightsButton.getAttribute("class").contains("selected"));
+        waiting(2000);
     }
 
     public void goToMultiCity() throws InterruptedException, IOException {
         click(multiCityButton);
+        Assert.assertTrue(multiCityButton.getAttribute("class").contains("selected"));
+        waiting(2000);
     }
 
     public void addFlight() throws InterruptedException, IOException {
         click(addFlightButton);
     }
 
-    public void firstFlight(String destA, String destB) throws InterruptedException, IOException {
+    public void firstFlight(String destA, String destB, String date) throws InterruptedException, IOException {
         click(fromCityGeneric);
         write(citySearchFieldOrg,destA);
         waitAndSelectCityOrg();
         click(fromCityGeneric2);
         citySearchFieldDest.sendKeys(destB);
         waitAndSelectCityDest();
+        click(datePicker1);
+        datePicker(date);
     }
 
-    public void secondFlight(String destB, String destC) throws InterruptedException, IOException {
+    public void secondFlight(String destB, String destC, String date) throws InterruptedException, IOException {
         click(fromCityGeneric3);
         write(citySearchFieldOrg,destB);
         waitAndSelectCityOrg();
         click(fromCityGeneric4);
         write(citySearchFieldDest,destC);
         waitAndSelectCityDest();
+        click(datePicker2);
+        datePicker(date);
     }
 
-    public void thirdFlight(String destC, String destA) throws InterruptedException, IOException {
+    public void thirdFlight(String destC, String destA, String date) throws InterruptedException, IOException {
         click(fromCityGeneric5);
         write(citySearchFieldOrg,destC);
         waitAndSelectCityOrg();
         click(fromCityGeneric6);
         write(citySearchFieldDest,destA);
         waitAndSelectCityDest();
+        click(datePicker3);
+        datePicker(date);
     }
 
     public void searchForFlights() throws InterruptedException {
@@ -131,5 +165,24 @@ public class ExpediaPage extends Base {
     public void waitAndSelectCityDest() throws InterruptedException {
         waitSearchFieldFindsCity();
         selectCityDestAfterSearch();
+    }
+
+    public void datePicker(String date) throws InterruptedException {
+        WebElement dateButton = driver.findElement(By.xpath("//*[contains(@aria-label,'"+date+"')]"));
+        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        executor.executeScript("arguments[0].click();", dateButton);
+        click(dateConfirm);
+    }
+
+    public void selectAdultCount(int count) throws InterruptedException {
+        click(travelerCountButton);
+        for (int i = 1; i < count; i++) { //starts with 1
+            click(adultCountPlus);
+        }
+        click(countConfirm);
+    }
+
+    public FlightsListPage flightsLoaded(){
+        return PageFactory.initElements(driver, FlightsListPage.class);
     }
 }
